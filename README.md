@@ -131,6 +131,17 @@ local lower = string.downcase("HELLO")
 
 ---
 
+### `string.upcase(value)`
+Converts a string to uppercase.
+
+**Example:**
+```lua
+local upper = string.upcase("hello")
+-- upper = "HELLO"
+```
+
+---
+
 ### `string.pad_leading(value, length, pad?)`
 Pads a string at the beginning to the given length.
 
@@ -227,6 +238,11 @@ Appends segments at a specified position.
 ```lua
 edi.append(tx, "4010", "H0100", new_segments)
 ```
+
+---
+
+### `edi.prepend(tx, version, position, segments)`
+Works like `append` but prepends instead of appending.
 
 ---
 
