@@ -175,61 +175,7 @@ local parts = string.split("a,b,c", ",")
 
 ---
 
-## DateTime Functions
-
-### `datetime.add_hours(date, time, hours)`
-Adds hours to a date-time.
-
-**Example:**
-```lua
-local new_date, new_time = datetime.add_hours("20240312", "1400", 5)
--- new_date = "20240312", new_time = "1900"
-```
-
----
-
-### `datetime.now()`
-Returns the current date and time as a table.
-
-**Example:**
-```lua
-local now = datetime.now()
--- now = {year = 2024, month = 3, day = 12, hour = 15, minute = 30}
-```
-
----
-
 ## EDI-Specific Functions
-
-### `edi.get_element(segments, element)`
-Finds the first matching element in a segment.
-
-**Example:**
-```lua
-local value = edi.get_element(segments, "B204")
-```
-
----
-
-### `edi.set_element(segments, element, value)`
-Sets the value of an element in EDI segments.
-
-**Example:**
-```lua
-edi.set_element(segments, "N104", "123456789")
-```
-
----
-
-### `edi.find_segments(segments, criteria)`
-Finds segments matching criteria.
-
-**Example:**
-```lua
-local matches = edi.find_segments(segments, "B2")
-```
-
----
 
 ### `edi.append(tx, version, position, segments)`
 Appends segments at a specified position.
@@ -253,6 +199,51 @@ Converts time zones in EDI segments.
 
 ### `edi.create_ms1s(segments, load)`
 Creates an MS1 (location) segment.
+
+---
+
+### `edi.create_ms2s(segments, load)`
+Creates an MS2 (shipment) segment.
+
+---
+
+### `edi.create_oids(map)`
+Creates OID segments from order details.
+
+---
+
+### `edi.create_l3(segments, load)`
+Creates an `L3` segment for load information.
+
+---
+
+### `edi.map_loops(segments, start_segment, version, type, func)`
+Maps segments for a given loop defined by the EDI version.
+
+---
+
+### `edi.map_transactions(segments, function)`
+Maps transactions from EDI segments.
+
+---
+
+### `edi.map_interchanges(segments, function)`
+Maps interchanges from EDI segments.
+
+---
+
+### `edi.move(segments, version, old_pos, new_pos)`
+Moves segment(s) from one position to another.
+
+---
+
+### `edi.remove_first_last_s5_loops(segments)`
+Removes the first and last `S5` loops from the EDI segments.
+
+---
+
+### `edi.split_lx_transactions(segments)`
+Splits `214` transactions that have multiple `LX` loops into separate transactions.
 
 ---
 
