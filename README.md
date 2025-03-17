@@ -258,6 +258,18 @@ local coords = edi.city_state_to_lat_long("New York", "NY")
 
 ---
 
+### `get_load_info(city, state)`
+Gets load information from the database for the current transaction.
+
+**Example:**
+```lua
+-- assuming segments is a transaction pertaining to a load (204/990/214/210)
+local load_info = get_load_info(segments)
+-- load_info is a table with information about the load including stops, reference numbers, etc.
+```
+
+---
+
 ## Debugging Functions
 
 ### `debug.log(term)`
@@ -270,4 +282,3 @@ Logs a Lua value to the console.
 - Table-based functions are useful for transformation.
 - Date/time functions assist with EDI-compliant formatting.
 - EDI functions manipulate segments and elements.
-
