@@ -217,6 +217,73 @@ Creates an `L3` segment for load information.
 
 ---
 
+### `edi.insert_segments_after_list(segments, loops, segments_to_insert)`
+Inserts a list of segments once, immediately after the first complete match of the specified loop criteria.
+
+#### Understanding Loop Criteria
+
+In EDI, segments occur in a defined sequence. Sometimes certain groups of segments repeat—these are called loops.
+
+Loop criteria is a pattern that describes a repeating sequence, defined as:
+	•	A trigger segment (first item in the list).
+	•	One or more valid following segments, which must occur in order (repeating segments are allowed).
+
+The loop ends when:
+	1.	The trigger segment appears again (indicating a new loop).
+	2.	A segment appears that isn’t part of the criteria.
+	3.	A segment appears in the wrong order.
+	4.	The list of segments ends.
+
+Nested loops are supported using nested lists.
+
+Flat example: `{"B2", "B2A", "C3", "L11"}`
+
+Nested example: `{"S5", "L11", {"N1", "N2", "N3", "N4", "N5"}}`
+
+Example Usage
+
+```lua
+local segments = {
+  {"B2", "Header"},
+  {"S5", "Stop1"},
+  {"L11", "Note1"},
+  {"N1", "Name1"},
+  {"N2", "AddrLine1"},
+  {"N3", "AddrLine2"},
+  {"N4", "City"},
+  {"S5", "Stop2"},
+  {"L11", "Note2"},
+  {"N1", "Name2"},
+  {"N4", "City2"},
+  {"SE", "End"}
+}
+
+local updated_segments = edi.insert_segments_after_list(
+  segments,
+  {"S5", "L11", {"N1", "N2", "N3", "N4"}},
+  {
+    {"G62", "01", "20250101", "0", "1200"}
+  }
+)
+
+-- Output:
+-- {
+--   {"B2", "Header"},
+--   {"S5", "Stop1"},
+--   {"L11", "Note1"},
+--   {"N1", "Name1"},
+--   {"N2", "AddrLine1"},
+--   {"N3", "AddrLine2"},
+--   {"N4", "City"},
+--   {"S5", "Stop2"},
+--   {"L11", "Note2"},
+--   {"N1", "Name2"},
+--   {"N4", "City2"},
+--   {"G62", "01", "20250101", "0", "1200"}, -- inserted
+--   {"SE", "End"}
+-- }
+```
+
 ### `edi.map_loops(segments, start_segment, version, type, func)`
 Maps segments for a given loop defined by the EDI version.
 
